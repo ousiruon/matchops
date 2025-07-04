@@ -9,6 +9,7 @@ import Button from "@/app/(reusable)/Button";
 import { useEffect, useState } from "react";
 import { deletePlayer } from "@/store/playersSlice";
 import { useRouter } from "next/navigation";
+import { motion } from "motion/react";
 
 const DisplayPlayer = ({ player }: { player: Player }) => {
   const dispatch: AppDispatch = useDispatch();
@@ -36,6 +37,7 @@ const DisplayPlayer = ({ player }: { player: Player }) => {
       navigate.push("/players");
     }
   }, [isSuccess, players, navigate, dispatch]);
+  const [hoverSelect, setHoverSelect] = useState<string | null>(null);
   return (
     <>
       <div className="flex flex-col gap-6 w-full">
@@ -51,16 +53,22 @@ const DisplayPlayer = ({ player }: { player: Player }) => {
           </div>
         )}
         <div className="flex flex-col md:flex-row w-full">
-          <div className="flex flex-col w-full items-center justify-center bg-bg-2-light/70 dark:bg-bg-2-dark/40 rounded-l">
+          <motion.div
+            onHoverStart={() => setHoverSelect(player.id)}
+            onHoverEnd={() => setHoverSelect(null)}
+            className="flex flex-col w-full items-center justify-center bg-bg-2-light/70 dark:bg-bg-2-dark/40 rounded-l overflow-hidden"
+          >
             <Image
               src={player.image}
               alt={player.name}
-              width={400}
-              height={400}
-              className="rounded-l bg-primary-light dark:bg-primary-dark w-full h-auto aspect-retro object-cover"
+              width={700}
+              height={700}
+              className={`${
+                hoverSelect === player.id ? "scale-105" : ""
+              } rounded-l bg-primary-light dark:bg-primary-dark w-full h-auto aspect-retro object-cover  transition-transform duration-200 ease-in-out`}
               loading="lazy"
             />
-          </div>
+          </motion.div>
           <div className="flex flex-col gap-4 w-full items-start justify-start bg-bg-2-light/70 dark:bg-bg-2-dark/40 p-4 rounded-r">
             <h1 className="text-2xl font-bold">{player.name}</h1>
             {player.nationality && (

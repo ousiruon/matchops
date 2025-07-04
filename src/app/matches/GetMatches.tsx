@@ -109,7 +109,7 @@ const GetMatches = () => {
                     className="flex flex-col md:flex-row items-stretch w-full bg-bg-2-light/70 dark:bg-bg-2-dark/40 hover:bg-bg-2-light dark:hover:bg-bg-2-dark/60 gap-2 md:gap-4 transition-all duration-200 ease-in-out rounded-lg"
                     key={game.id}
                   >
-                    <div className="text-3xl flex-2/8 flex items-center justify-center min-h-full bg-primary-light dark:bg-primary-dark py-4 md:py-0 rounded-t-lg md:rounded-l-lg">
+                    <div className="text-3xl flex-2/8 flex items-center justify-center min-h-full bg-primary-light dark:bg-primary-dark py-4 md:py-0 rounded-t-lg md:rounded-l-lg md:rounded-t-none">
                       {game.home ? <FaHome /> : <FaPlaneDeparture />}
                     </div>
                     <div className="flex-4/8 flex flex-col items-center justify-between gap-2 py-2">

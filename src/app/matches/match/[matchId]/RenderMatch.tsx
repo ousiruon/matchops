@@ -79,7 +79,7 @@ const RenderMatch = ({ game }: { game: Game }) => {
         key={game.id}
       >
         {/* Left Icon */}
-        <div className="text-5xl flex-2/8 flex items-center justify-center min-h-full bg-primary-light dark:bg-primary-dark py-4 md:py-0 rounded-t-lg md:rounded-l-lg">
+        <div className="text-5xl flex-2/8 flex items-center justify-center min-h-full bg-primary-light dark:bg-primary-dark py-4 md:py-0 rounded-t-lg md:rounded-l-lg md:rounded-t-none">
           {game.home ? <FaHome /> : <FaPlaneDeparture />}
         </div>
 

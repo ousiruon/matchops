@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { getAge } from "../utils/functions";
+import { motion } from "motion/react";
 
 const ReusableTop = ({
   title,
@@ -21,6 +22,10 @@ const ReusableTop = ({
   cards?: Card[];
 }) => {
   const [sortedPlayers, setSortedPlayers] = useState<Player[]>([]);
+  const [hoverSelect, setHoverSelect] = useState<string | null>(null);
+  useEffect(() => {
+    console.log(hoverSelect);
+  }, [hoverSelect]);
   useEffect(() => {
     if (players.length === 0) return;
     if (rankBy === "goals" && goals && goals.length > 0) {
@@ -83,30 +88,42 @@ const ReusableTop = ({
             {[...sortedPlayers.slice(0, 3)].map((player) => (
               <Link
                 href={`/players/${player.id}`}
-                className="px-2 sm:px-4 py-3 font-semibold flex flex-row items-center justify-between w-full bg-bg-2-light/70 dark:bg-bg-2-dark/40 hover:bg-bg-2-light dark:hover:bg-bg-2-dark/60 gap-4 transition-all duration-200 ease-in-out"
+                className="flex flex-row items-center justify-between w-full"
                 key={player.id}
               >
-                <div className="flex flex-row gap-4 items-center justify-center">
-                  <Image
-                    src={player.image}
-                    alt={player.name}
-                    width={200}
-                    height={200}
-                    className="rounded-full bg-primary-light dark:bg-primary-dark object-cover w-full max-w-[40px] aspect-square"
-                  />
-                  {player.name}
-                </div>
-                <div className="text-primary-light dark:text-primary-dark font-semibold opacity-80">
-                  {rankBy === "goals"
-                    ? player.goalsScored
-                    : rankBy === "yellowCards"
-                    ? player.yellowCardsReceived
-                    : rankBy === "redCards"
-                    ? player.redCardsReceived
-                    : rankBy === "youngPlayers"
-                    ? getAge(player.dob || 0)
-                    : ""}
-                </div>
+                <motion.div
+                  onHoverStart={() => setHoverSelect(`${rankBy}-${player.id}`)}
+                  onHoverEnd={() => setHoverSelect(null)}
+                  className="px-2 sm:px-4 py-3 font-semibold flex flex-row items-center justify-between w-full bg-bg-2-light/70 dark:bg-bg-2-dark/40 hover:bg-bg-2-light dark:hover:bg-bg-2-dark/60 gap-4 transition-all duration-200 ease-in-out"
+                >
+                  <div className="flex flex-row gap-4 items-center justify-center">
+                    <div className="rounded-full bg-primary-light dark:bg-primary-dark object-cover w-full max-w-[40px] aspect-square overflow-hidden">
+                      <Image
+                        src={player.image}
+                        alt={player.name}
+                        width={100}
+                        height={100}
+                        className={`${
+                          hoverSelect === `${rankBy}-${player.id}`
+                            ? "scale-110"
+                            : ""
+                        } object-cover w-full transition-transform duration-200 ease-in-out overflow-hidden`}
+                      />
+                    </div>
+                    {player.name}
+                  </div>
+                  <div className="text-primary-light dark:text-primary-dark font-semibold opacity-80">
+                    {rankBy === "goals"
+                      ? player.goalsScored
+                      : rankBy === "yellowCards"
+                      ? player.yellowCardsReceived
+                      : rankBy === "redCards"
+                      ? player.redCardsReceived
+                      : rankBy === "youngPlayers"
+                      ? getAge(player.dob || 0)
+                      : ""}
+                  </div>
+                </motion.div>
               </Link>
             ))}
           </ul>
